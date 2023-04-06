@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const fs = require("fs-extra");
+const stringify = require("json-converters").stringify
+const parse = require("json-converters").parse
 
 
 async function MoveLocalDependenciesIntoProject(parentProjectDirectory){
