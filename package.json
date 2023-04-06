@@ -1,10 +1,10 @@
 {
   "name": "no-symlink",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "bin": {
     "bring-in-symlinks": "./bring-in-symlinks.js",
-    "no-symlink-test":"./test.js"
+    "no-symlink-test": "./test.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
