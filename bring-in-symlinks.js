@@ -27,7 +27,7 @@ async function BringInSymlinks(parentProjectDirectory){
 
             await BringInSymlinks(projectPath)
 
-            await fs.copy(filePath, `./.packages/${depName}`);
+            await fs.copy(projectPath, `./.packages/${depName}`);
 
             packageJson.dependencies[depName] = `file:./.packages/${depName}`
 
