@@ -46,4 +46,4 @@ async function MoveLocalDependenciesIntoProject(parentProjectDirectory){
     await fs.writeFile(parentProjectDirectory + "/local-depencies-temp.json", stringify(localDependencies, null, 2));
 }
 
-MoveLocalDependenciesIntoProject(".");
+MoveLocalDependenciesIntoProject(process.cwd());
