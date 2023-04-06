@@ -2,8 +2,10 @@
   "name": "no-symlink",
   "version": "1.0.1",
   "description": "",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "src/index.js",
+  "bin": {
+    "bring-in":"./cli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
@@ -13,8 +15,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/fs-extra": "^11.0.1",
-    "typescript": "^5.0.3"
   },
   "dependencies": {
     "fs-extra": "^11.1.1",
