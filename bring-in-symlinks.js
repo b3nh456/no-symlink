@@ -5,7 +5,7 @@ const stringify = require("json-converters").stringify
 const parse = require("json-converters").parse
 
 
-async function MoveLocalDependenciesIntoProject(parentProjectDirectory){
+async function BringInSymlinks(parentProjectDirectory){
 
     const packageJsonPath = parentProjectDirectory + "/package.json";
     const packageJson = require(packageJsonPath);
@@ -20,21 +20,20 @@ async function MoveLocalDependenciesIntoProject(parentProjectDirectory){
 
         // If dependency relies on a local file
         if(version.includes("file")){
-            console.log(depName)
 
             // Get 
             const pathStartIndex = version.indexOf(":")
             const projectPath = parentProjectDirectory + "/" + version.substring(pathStartIndex+1)
 
-            await MoveLocalDependenciesIntoProject(projectPath)
+            await BringInSymlinks(projectPath)
 
+            await fs.copy(filePath, `./.packages/${depName}`);
 
-            console.log(projectPath)
-            //await fs.copy(filePath, `./.packages/${depName}`);
             packageJson.dependencies[depName] = `file:./.packages/${depName}`
 
             localDependencies.set(depName, version.substring(pathStartIndex+1))
-            console.log(localDependencies)
+            
+            console.log(`symlink package ${depName} brought inside ${packageJson.name}`)
         }
 
     }
@@ -43,7 +42,7 @@ async function MoveLocalDependenciesIntoProject(parentProjectDirectory){
     await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
     // Save the local file dependencies to json so can be rewritten after
-    await fs.writeFile(parentProjectDirectory + "/local-depencies-temp.json", stringify(localDependencies, null, 2));
+    await fs.writeFile(parentProjectDirectory + "/symlinks-temp.json", stringify(localDependencies));
 }
 
-MoveLocalDependenciesIntoProject(process.cwd());
+BringInSymlinks(process.cwd());
