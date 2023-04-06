@@ -1,10 +1,10 @@
 {
   "name": "no-symlink",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "src/index.js",
   "bin": {
-    "bring-in":"./cli.js"
+    "bring-in": "./cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,8 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "fs-extra": "^11.1.1",
     "json-converters": "^1.0.1"
