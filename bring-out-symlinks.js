@@ -31,8 +31,9 @@ async function BringOutSymlinks(parentProjectDirectory){
 
         // If dependency relies on a local file
         if(version=="file:" || version=="file:." || version=="file:./"){
-            console.log("DELETE ME:",depName)
             delete packageJson.dependencies[depName]
+            console.log("Deleted self dependency:",depName)
+
         }
 
     }
