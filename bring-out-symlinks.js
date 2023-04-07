@@ -15,6 +15,9 @@ async function BringOutSymlinks(parentProjectDirectory){
     const symlinksJsonPath = parentProjectDirectory + "/symlinks-temp.json";
     const symlinksJson = parse(await fs.readFile(symlinksJsonPath))
 
+    console.log("=")
+    console.log(symlinksJson)
+    console.log(symlinksJson.keys())
     for (var symlinkDepName in symlinksJson.keys()){
 
             // Get old symlink path from symlinks-temp.json
