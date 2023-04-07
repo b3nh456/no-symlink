@@ -38,7 +38,7 @@ async function BringOutSymlinks(parentProjectDirectory){
     }
 
     // Re-Write the package.json
-    //await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
     // Remove .packages
     await fs.remove(`${parentProjectDirectory}/.packages`);
