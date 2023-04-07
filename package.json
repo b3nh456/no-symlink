@@ -4,7 +4,7 @@
   "description": "",
   "bin": {
     "bring-in-symlinks": "./bring-in-symlinks.js",
-    "bring-out-symlinks": "./bring-out-symlinks.js",
+    "bring-out-symlinks": "./bring-out-symlinks.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
