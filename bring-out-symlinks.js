@@ -19,9 +19,6 @@ async function BringOutSymlinks(parentProjectDirectory){
 
             // Get old symlink path from symlinks-temp.json
             const relativeProjectPath = symlinksJson.get(symlinkDepName)
-            const absoluteProjectPath = `${parentProjectDirectory}/${relativeProjectPath}`
-
-            await BringOutSymlinks(absoluteProjectPath)
             
             // Revert package.json dependency to original symlink path
             packageJson.dependencies[symlinkDepName] = `file:${relativeProjectPath}`
