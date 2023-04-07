@@ -15,8 +15,6 @@
   "devDependencies": {},
   "dependencies": {
     "fs-extra": "^11.1.1",
-    "json-converters": "^1.0.1",
-    "ocr-package,../../ocr-package": "file:undefined",
-    "ocr-package": "file:../../ocr-package"
+    "json-converters": "^1.0.1"
   }
 }
