@@ -10,7 +10,7 @@ async function BringInSymlinks(packageDirectory, newPackageDirectory){
     const packageJsonPath =  `${newPackageDirectory}/package.json`;
     const packageJson = parse(await fs.readFile(packageJsonPath));
 
-    const localDependencies = new Map()
+    const symlinkDependencies = new Map()
 
     // Delete current .packages folder
     await fs.remove(`${newPackageDirectory}/.packages`);
@@ -36,18 +36,19 @@ async function BringInSymlinks(packageDirectory, newPackageDirectory){
             packageJson.dependencies[depName] = `file:./.packages/${depName}`
 
             // Add the old filepath to a map so we can revert is later
-            localDependencies.set(depName, version.substring(pathStartIndex+1))
+            symlinkDependencies.set(depName, version.substring(pathStartIndex+1))
             
             console.log(`In ${packageJson.name}: Symlink package ${depName} brought in`)
         }
 
     }
+    if(!symlinkDependencies.keys()){return}
 
     // Re-Write the package.json
-    await fs.writeFile(newPackageDirectory, JSON.stringify(packageJson, null, 2));
+    await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
     // Save the local file dependencies to json so can be rewritten after
-    await fs.writeFile(`${newPackageDirectory}/symlinks-temp.json`, stringify(localDependencies));
+    await fs.writeFile(`${newPackageDirectory}/symlinks-temp.json`, stringify(symlinkDependencies));
 }
 
 BringInSymlinks(process.cwd(), process.cwd());
