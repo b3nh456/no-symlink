@@ -5,7 +5,6 @@
   "bin": {
     "bring-in-symlinks": "./bring-in-symlinks.js",
     "bring-out-symlinks": "./bring-out-symlinks.js",
-    "no-symlink-test": "./test.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

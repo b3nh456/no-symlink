@@ -7,13 +7,13 @@ const parse = require("json-converters").parse
 
 async function BringInSymlinks(parentProjectDirectory){
 
-    const packageJsonPath = parentProjectDirectory + "/package.json";
-    const packageJson = require(packageJsonPath);
+    const packageJsonPath =  `${parentProjectDirectory}/package.json`;
+    const packageJson = parse(await fs.readFile(packageJsonPath));
 
     const localDependencies = new Map()
 
-    // 1. Delete current .packages folder
-    await fs.remove(parentProjectDirectory + `/.packages`);
+    // Delete current .packages folder
+    await fs.remove(`${parentProjectDirectory}/.packages`);
 
     for (var depName in packageJson.dependencies){
         const version = packageJson.dependencies[depName]
@@ -21,19 +21,23 @@ async function BringInSymlinks(parentProjectDirectory){
         // If dependency relies on a local file
         if(version.includes("file")){
 
-            // Get 
+            // Get the dependencies relative path and calculate the absolute path
             const pathStartIndex = version.indexOf(":")
-            const projectPath = parentProjectDirectory + "/" + version.substring(pathStartIndex+1)
+            const projectPath = `${parentProjectDirectory}/${version.substring(pathStartIndex+1)}`
 
+            // (Recursive) Check this dependency's dependencies
             await BringInSymlinks(projectPath)
 
-            await fs.copy(projectPath, `./.packages/${depName}`);
+            // Copy the dependency package into this package
+            await fs.copy(projectPath, `${parentProjectDirectory}/.packages/${depName}`);
 
+            // Change the dependency version to reference this new filepath
             packageJson.dependencies[depName] = `file:./.packages/${depName}`
 
+            // Add the old filepath to a map so we can revert is later
             localDependencies.set(depName, version.substring(pathStartIndex+1))
             
-            console.log(`symlink package ${depName} brought inside ${packageJson.name}`)
+            console.log(`In ${packageJson.name}: Symlink package ${depName} brought in`)
         }
 
     }
@@ -42,7 +46,7 @@ async function BringInSymlinks(parentProjectDirectory){
     await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
     // Save the local file dependencies to json so can be rewritten after
-    await fs.writeFile(parentProjectDirectory + "/symlinks-temp.json", stringify(localDependencies));
+    await fs.writeFile(`${parentProjectDirectory}/symlinks-temp.json`, stringify(localDependencies));
 }
 
 BringInSymlinks(process.cwd());
