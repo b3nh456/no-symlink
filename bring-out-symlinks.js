@@ -20,7 +20,7 @@ async function BringOutSymlinks(parentProjectDirectory){
         // Revert package.json dependency to original symlink path
         packageJson.dependencies[symlinkDepName] = `file:${relativeProjectPath}`
 
-        console.log(`In ${packageJson.name}: Symlink package ${symlinkDepName} reverted`)
+        console.log(`In \"${packageJson.name}\": Symlink package \"${symlinkDepName}\" was reverted`)
 
     }
 

@@ -4,7 +4,6 @@ const fs = require("fs-extra");
 const stringify = require("json-converters").stringify
 const parse = require("json-converters").parse
 
-
 async function BringInSymlinks(packageDirectory, newPackageDirectory){
 
     const packageJsonPath =  `${newPackageDirectory}/package.json`;
@@ -38,7 +37,7 @@ async function BringInSymlinks(packageDirectory, newPackageDirectory){
             // Add the old filepath to a map so we can revert is later
             symlinkDependencies.set(depName, version.substring(pathStartIndex+1))
             
-            console.log(`In ${packageJson.name}: Symlink package ${depName} brought in`)
+            console.log(`In \"${packageJson.name}\": Symlink package \"${depName}\" was brought in`)
         }
 
     }
