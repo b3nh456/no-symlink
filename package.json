@@ -1,6 +1,6 @@
 {
   "name": "no-symlink",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "",
   "bin": {
     "bring-in-symlinks": "./bring-in-symlinks.js",
