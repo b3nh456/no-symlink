@@ -24,6 +24,18 @@ async function BringOutSymlinks(parentProjectDirectory){
 
     }
 
+    // delet if theres package has a dependency on itself
+    // (calling npm install from outside directory sometimes creates a dependency on itself)
+    for (var depName in packageJson.dependencies){
+        const version = packageJson.dependencies[depName]
+
+        // If dependency relies on a local file
+        if(version=="file:" || version=="file:." || version=="file:./"){
+            delete packageJson.dependencies[depName]
+        }
+
+    }
+
     // Re-Write the package.json
     await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
