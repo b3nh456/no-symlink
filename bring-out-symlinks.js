@@ -15,21 +15,16 @@ async function BringOutSymlinks(parentProjectDirectory){
     const symlinksJsonPath = parentProjectDirectory + "/symlinks-temp.json";
     const symlinksJson = parse(await fs.readFile(symlinksJsonPath))
 
-    console.log("=")
-    console.log(symlinksJson)
-    console.log(symlinksJson.keys())
     for (var symlinkDepName in symlinksJson.keys()){
 
             // Get old symlink path from symlinks-temp.json
-            const version = symlinksJson.get(symlinkDepName)
+            const relativeProjectPath = symlinksJson.get(symlinkDepName)
+            const absoluteProjectPath = `${parentProjectDirectory}/${relativeProjectPath}`
 
-            const pathStartIndex = version.indexOf(":")
-            const projectPath = `${parentProjectDirectory}/${version.substring(pathStartIndex+1)}`
-
-            await BringOutSymlinks(projectPath)
+            await BringOutSymlinks(absoluteProjectPath)
             
             // Revert package.json dependency to original symlink path
-            packageJson.dependencies[symlinkDepName] = version
+            packageJson.dependencies[symlinkDepName] = `file:${relativeProjectPath}`
             
             console.log(`In ${packageJson.name}: Symlink package ${symlinkDepName} reverted`)
 

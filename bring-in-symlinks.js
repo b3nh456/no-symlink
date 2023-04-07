@@ -23,13 +23,14 @@ async function BringInSymlinks(parentProjectDirectory){
 
             // Get the dependencies relative path and calculate the absolute path
             const pathStartIndex = version.indexOf(":")
-            const projectPath = `${parentProjectDirectory}/${version.substring(pathStartIndex+1)}`
+            const relativeProjectPath = version.substring(pathStartIndex+1)
+            const absoluteProjectPath = `${parentProjectDirectory}/${relativeProjectPath}`
 
             // (Recursive) Check this dependency's dependencies
-            await BringInSymlinks(projectPath)
+            await BringInSymlinks(absoluteProjectPath)
 
             // Copy the dependency package into this package
-            await fs.copy(projectPath, `${parentProjectDirectory}/.packages/${depName}`);
+            await fs.copy(absoluteProjectPath, `${parentProjectDirectory}/.packages/${depName}`);
 
             // Change the dependency version to reference this new filepath
             packageJson.dependencies[depName] = `file:./.packages/${depName}`
